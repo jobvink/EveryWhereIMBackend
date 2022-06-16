@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/admin/{user}/color', [\App\Http\Controllers\AdminController::class, 'changeColor'])->name('changeColor');
+    Route::patch('/admin/{user}/color/change', [\App\Http\Controllers\AdminController::class, 'changeUserColor'])->name('changeUserColor');
 });
+
+require __DIR__ . '/auth.php';
