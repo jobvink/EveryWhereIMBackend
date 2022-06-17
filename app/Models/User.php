@@ -42,6 +42,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTwoFactorSecret($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Color[] $colors
+ * @property-read int|null $colors_count
  */
 class User extends Authenticatable
 {
@@ -76,4 +78,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The colors that a user has
+     */
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class);
+    }
+
+    /**
+     * cleaning up after deleting
+     *
+     * @return void
+     */
+    public static function boot() {
+        parent::boot();
+
+        static::deleting(function(self $user) {
+            $user->colors()->detach();
+            $user->tokens()->delete();
+        });
+    }
 }

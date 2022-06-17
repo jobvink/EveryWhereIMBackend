@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
-class ChangeUserColor extends FormRequest
+class DeleteAccountRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +14,7 @@ class ChangeUserColor extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check();
+        return \Auth::check();
     }
 
     /**
@@ -26,7 +25,7 @@ class ChangeUserColor extends FormRequest
     public function rules()
     {
         return [
-            'color' => ['required', 'exists:colors,name']
+            //
         ];
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use function Symfony\Component\String\u;
 
 class RegisteredUserController extends Controller
 {
@@ -27,7 +28,7 @@ class RegisteredUserController extends Controller
      * Handle an incoming registration request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|array[string]
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -48,6 +49,14 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        // if the user registers via the app, the device needs to log in.
+        if ($request->expectsJson()) {
+            return [
+                'user_id' => $user->id,
+                'token' => $user->createToken($request->name)->plainTextToken
+            ];
+        }
 
         return redirect(RouteServiceProvider::HOME);
     }

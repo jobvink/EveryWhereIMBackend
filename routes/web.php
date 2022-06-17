@@ -18,6 +18,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
     Route::get('/admin/{user}/color', [\App\Http\Controllers\AdminController::class, 'changeColor'])->name('changeColor');
     Route::patch('/admin/{user}/color/change', [\App\Http\Controllers\AdminController::class, 'changeUserColor'])->name('changeUserColor');
+    Route::delete('/admin/{user}/color/delete', [\App\Http\Controllers\AdminController::class, 'deleteUserColor'])->name('deleteUserColor');
+
 });
 
 require __DIR__ . '/auth.php';
