@@ -24,3 +24,8 @@ php artisan serve
 ```
 
 log in to the admin dasboard by going to [127.0.0.1:8000/admin](127.0.0.1:8000/admin)
+
+To run automated tests use:
+```bash
+php artisan test
+```

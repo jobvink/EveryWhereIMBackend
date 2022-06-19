@@ -20,15 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    Route::get('register', [RegisteredUserController::class, 'create'])->name('api.register');
     Route::post('register', [RegisteredUserController::class, 'store']);
     Route::post('/token', [AccessTokenController::class, 'create']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/users', [UserColorController::class, 'all']);
-    Route::get('/users/{user}/color', [UserColorController::class, 'colors']);
-    Route::patch('/users/{user}/color', [UserColorController::class, 'updateColor']);
-    Route::delete('/users/me/delete', [DeleteAccountController::class, 'destroy']);
+    Route::get('/users', [UserColorController::class, 'all'])->name('api.users');
+    Route::get('/users/{user}/color', [UserColorController::class, 'colors'])->name('api.users.color');
+    Route::patch('/users/{user}/color', [UserColorController::class, 'updateColor'])->name('api.users.color.update');
+    Route::delete('/users/me/delete', [DeleteAccountController::class, 'destroy'])->name('api.users.delete');
 });
 
