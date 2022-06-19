@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Color;
 use App\Models\User;
 use Illuminate\Http\Request;
+use jeremykenedy\LaravelRoles\Models\Role;
 
 class UserColorController extends Controller
 {
     public function all()
     {
-        return User::with('colors')->get();
+        $userRole = Role::whereSlug('user')->firstOrFail();
+        return $userRole->users()->with('colors')->get();
     }
 
     public function colors(User $user) {

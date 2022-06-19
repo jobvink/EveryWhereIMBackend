@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::group(['middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
-    Route::get('/admin/{user}/color', [\App\Http\Controllers\AdminController::class, 'changeColor'])->name('changeColor');
-    Route::patch('/admin/{user}/color/change', [\App\Http\Controllers\AdminController::class, 'changeUserColor'])->name('changeUserColor');
-    Route::delete('/admin/{user}/color/delete', [\App\Http\Controllers\AdminController::class, 'deleteUserColor'])->name('deleteUserColor');
+Route::group(['middleware' => ['auth', 'role:admin'], 'prefix' => '/admin'], function () {
+    Route::get('/', [\App\Http\Controllers\AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/{user}/color', [\App\Http\Controllers\AdminController::class, 'changeColor'])->name('changeColor');
+    Route::patch('/{user}/color', [\App\Http\Controllers\AdminController::class, 'changeUserColor'])->name('changeUserColor');
+    Route::delete('/{user}/color', [\App\Http\Controllers\AdminController::class, 'deleteUserColor'])->name('deleteUserColor');
 
 });
 

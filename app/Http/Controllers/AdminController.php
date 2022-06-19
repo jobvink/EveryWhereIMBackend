@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use jeremykenedy\LaravelRoles\Models\Role;
 use function Symfony\Component\String\u;
 
 class AdminController extends Controller
@@ -20,7 +21,8 @@ class AdminController extends Controller
      */
     public function dashboard(): View
     {
-        $users = User::all();
+        $userRole = Role::whereSlug('user')->firstOrFail();
+        $users = $userRole->users;
 
         return view('dashboard', compact('users'));
     }

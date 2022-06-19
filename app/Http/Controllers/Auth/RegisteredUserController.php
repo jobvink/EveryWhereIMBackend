@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use jeremykenedy\LaravelRoles\Models\Role;
 use function Symfony\Component\String\u;
 
 class RegisteredUserController extends Controller
@@ -45,6 +46,9 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $userRole = Role::whereSlug('user')->firstOrFail();
+        $user->attachRole($userRole);
 
         event(new Registered($user));
 
